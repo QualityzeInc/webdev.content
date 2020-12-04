@@ -10,7 +10,7 @@
     <label>
         <input type="search" class="search-field custom-form-control" placeholder="<?php echo esc_attr_x( 'Search &hellip;', 'placeholder', 'wp-bootstrap-starter' ); ?>" value="<?php echo esc_attr( get_search_query() ); ?>" name="search" title="<?php _ex( 'Search for:', 'label', 'wp-bootstrap-starter' ); ?>">
     </label>
-    <a type="submit" class="search-submit  btn-custom-search" value="<?php echo esc_attr_x( 'Search', 'submit button', 'wp-bootstrap-starter' ); ?>"><i class="fa fa-search"></i></a>
+    <button type="submit" class="search-submit  btn-custom-search" value="<?php echo esc_attr_x( 'Search', 'submit button', 'wp-bootstrap-starter' ); ?>"><i class="fa fa-search"></i></button>
 </form>
 
 
