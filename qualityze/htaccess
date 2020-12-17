@@ -1,0 +1,406 @@
+# BEGIN Far Future Expiration Plugin
+<IfModule mod_expires.c>
+ExpiresActive on
+<FilesMatch "\.(gif|jpeg|jpg|png|ico|js|css|swf)$">
+ExpiresDefault "access plus 100 days"
+</FilesMatch>
+</IfModule>
+# END Far Future Expiration Plugin
+#my comment as on 17-12-2020
+# BEGIN DEFLATE COMPRESSION
+<IfModule mod_deflate.c>
+# Compress HTML, CSS, JavaScript, Text, XML and fonts
+ AddOutputFilterByType DEFLATE application/javascript
+ AddOutputFilterByType DEFLATE application/rss+xml
+ AddOutputFilterByType DEFLATE application/vnd.ms-fontobject
+ AddOutputFilterByType DEFLATE application/x-font
+ AddOutputFilterByType DEFLATE application/x-font-opentype
+ AddOutputFilterByType DEFLATE application/x-font-otf
+ AddOutputFilterByType DEFLATE application/x-font-truetype
+ AddOutputFilterByType DEFLATE application/x-font-ttf
+ AddOutputFilterByType DEFLATE application/x-javascript
+ AddOutputFilterByType DEFLATE application/xhtml+xml
+ AddOutputFilterByType DEFLATE application/xml
+ AddOutputFilterByType DEFLATE font/opentype
+ AddOutputFilterByType DEFLATE font/otf
+ AddOutputFilterByType DEFLATE font/ttf
+ AddOutputFilterByType DEFLATE image/svg+xml
+ AddOutputFilterByType DEFLATE image/x-icon
+ AddOutputFilterByType DEFLATE text/css
+ AddOutputFilterByType DEFLATE text/html
+ AddOutputFilterByType DEFLATE text/javascript
+ AddOutputFilterByType DEFLATE text/plain
+ AddOutputFilterByType DEFLATE text/xml
+</IfModule>
+# END DEFLATE COMPRESSION
+# BEGIN GZIP COMPRESSION
+<IfModule mod_gzip.c>
+mod_gzip_on Yes
+mod_gzip_dechunk Yes
+mod_gzip_item_include file \.(html?|txt|css|js|php|pl)$
+mod_gzip_item_include handler ^cgi-script$
+mod_gzip_item_include mime ^text/.*
+mod_gzip_item_include mime ^application/x-javascript.*
+mod_gzip_item_exclude mime ^image/.*
+mod_gzip_item_exclude rspheader ^Content-Encoding:.*gzip.*
+</IfModule>
+# END GZIP COMPRESSION
+#BEGIN EXPIRES HEADERS
+<IfModule mod_expires.c>
+# Enable expirations
+ExpiresActive On
+# Default expiration: 1 hour after request
+ExpiresDefault "now plus 1 hour"
+# CSS and JS expiration: 1 week after request
+ExpiresByType text/css "now plus 1 week"
+ExpiresByType application/javascript "now plus 1 week"
+ExpiresByType application/x-javascript "now plus 1 week"
+# Image files expiration: 1 month after request
+ExpiresByType image/bmp "now plus 1 month"
+ExpiresByType image/gif "now plus 1 month"
+ExpiresByType image/jpeg "now plus 1 month"
+ExpiresByType image/jp2 "now plus 1 month"
+ExpiresByType image/pipeg "now plus 1 month"
+ExpiresByType image/png "now plus 1 month"
+ExpiresByType image/svg+xml "now plus 1 month"
+ExpiresByType image/tiff "now plus 1 month"
+ExpiresByType image/vnd.microsoft.icon "now plus 1 month"
+ExpiresByType image/x-icon "now plus 1 month"
+ExpiresByType image/ico "now plus 1 month"
+ExpiresByType image/icon "now plus 1 month"
+ExpiresByType text/ico "now plus 1 month"
+ExpiresByType application/ico "now plus 1 month"
+# Webfonts
+ExpiresByType font/truetype "access plus 1 month"
+ExpiresByType font/opentype "access plus 1 month"
+ExpiresByType application/x-font-woff "access plus 1 month"
+ExpiresByType image/svg+xml "access plus 1 month"
+ExpiresByType application/vnd.ms-fontobject "access plus 1 month"
+</IfModule>
+#END EXPIRES HEADERS
+# BEGIN Cache-Control Headers
+<ifModule mod_headers.c>
+ <filesMatch "\.(ico|jpe?g|png|gif|swf)$">
+ Header set Cache-Control "max-age=2592000, public"
+ </filesMatch>
+ <filesMatch "\.(css)$">
+ Header set Cache-Control "max-age=604800, public"
+ </filesMatch>
+ <filesMatch "\.(js)$">
+ Header set Cache-Control "max-age=216000, private"
+ </filesMatch>
+ <filesMatch "\.(x?html?|php)$">
+ Header set Cache-Control "max-age=600, private, must-revalidate"
+ </filesMatch>
+</ifModule>
+# END Cache-Control Headers
+#end my comment compress
+# BEGIN LSCACHE
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+<IfModule LiteSpeed>
+RewriteEngine on
+CacheLookup on
+RewriteRule .* - [E=Cache-Control:no-autoflush]
+
+### marker MOBILE start ###
+RewriteCond %{HTTP_USER_AGENT} Mobile|Android|Silk/|Kindle|BlackBerry|Opera\ Mini|Opera\ Mobi [NC]
+RewriteRule .* - [E=Cache-Control:vary=ismobile]
+### marker MOBILE end ###
+
+### marker CACHE RESOURCE start ###
+RewriteRule wp-content/.*/[^/]*(responsive|css|js|dynamic|loader|fonts)\.php - [E=cache-control:max-age=3600]
+### marker CACHE RESOURCE end ###
+
+### marker FAVICON start ###
+RewriteRule favicon\.ico$ - [E=cache-control:max-age=86400]
+### marker FAVICON end ###
+
+### marker DROPQS start ###
+CacheKeyModify -qs:fbclid
+CacheKeyModify -qs:gclid
+CacheKeyModify -qs:utm*
+CacheKeyModify -qs:_ga
+### marker DROPQS end ###
+
+</IfModule>
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+# END LSCACHE
+# BEGIN NON_LSCACHE
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+## LITESPEED WP CACHE PLUGIN - Do not edit the contents of this block! ##
+# END NON_LSCACHE
+RewriteEngine On
+RewriteCond %{SERVER_PORT} 80
+RewriteRule ^(.*)$ https://www.qualityze.com/$1 [R=301,L,NE]
+# BEGIN W3TC Browser Cache
+<IfModule mod_mime.c>
+    AddType text/css .css
+    AddType text/x-component .htc
+    AddType application/x-javascript .js
+    AddType application/javascript .js2
+    AddType text/javascript .js3
+    AddType text/x-js .js4
+    AddType video/asf .asf .asx .wax .wmv .wmx
+    AddType video/avi .avi
+    AddType image/bmp .bmp
+    AddType application/java .class
+    AddType video/divx .divx
+    AddType application/msword .doc .docx
+    AddType application/vnd.ms-fontobject .eot
+    AddType application/x-msdownload .exe
+    AddType image/gif .gif
+    AddType application/x-gzip .gz .gzip
+    AddType image/x-icon .ico
+    AddType image/jpeg .jpg .jpeg .jpe
+    AddType image/webp .webp
+    AddType application/json .json
+    AddType application/vnd.ms-access .mdb
+    AddType audio/midi .mid .midi
+    AddType video/quicktime .mov .qt
+    AddType audio/mpeg .mp3 .m4a
+    AddType video/mp4 .mp4 .m4v
+    AddType video/mpeg .mpeg .mpg .mpe
+    AddType video/webm .webm
+    AddType application/vnd.ms-project .mpp
+    AddType application/x-font-otf .otf
+    AddType application/vnd.ms-opentype ._otf
+    AddType application/vnd.oasis.opendocument.database .odb
+    AddType application/vnd.oasis.opendocument.chart .odc
+    AddType application/vnd.oasis.opendocument.formula .odf
+    AddType application/vnd.oasis.opendocument.graphics .odg
+    AddType application/vnd.oasis.opendocument.presentation .odp
+    AddType application/vnd.oasis.opendocument.spreadsheet .ods
+    AddType application/vnd.oasis.opendocument.text .odt
+    AddType audio/ogg .ogg
+    AddType application/pdf .pdf
+    AddType image/png .png
+    AddType application/vnd.ms-powerpoint .pot .pps .ppt .pptx
+    AddType audio/x-realaudio .ra .ram
+    AddType image/svg+xml .svg .svgz
+    AddType application/x-shockwave-flash .swf
+    AddType application/x-tar .tar
+    AddType image/tiff .tif .tiff
+    AddType application/x-font-ttf .ttf .ttc
+    AddType application/vnd.ms-opentype ._ttf
+    AddType audio/wav .wav
+    AddType audio/wma .wma
+    AddType application/vnd.ms-write .wri
+    AddType application/font-woff .woff
+    AddType application/font-woff2 .woff2
+    AddType application/vnd.ms-excel .xla .xls .xlsx .xlt .xlw
+    AddType application/zip .zip
+</IfModule>
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css A31536000
+    ExpiresByType text/x-component A31536000
+    ExpiresByType application/x-javascript A31536000
+    ExpiresByType application/javascript A31536000
+    ExpiresByType text/javascript A31536000
+    ExpiresByType text/x-js A31536000
+    ExpiresByType video/asf A31536000
+    ExpiresByType video/avi A31536000
+    ExpiresByType image/bmp A31536000
+    ExpiresByType application/java A31536000
+    ExpiresByType video/divx A31536000
+    ExpiresByType application/msword A31536000
+    ExpiresByType application/vnd.ms-fontobject A31536000
+    ExpiresByType application/x-msdownload A31536000
+    ExpiresByType image/gif A31536000
+    ExpiresByType application/x-gzip A31536000
+    ExpiresByType image/x-icon A31536000
+    ExpiresByType image/jpeg A31536000
+    ExpiresByType image/webp A31536000
+    ExpiresByType application/json A31536000
+    ExpiresByType application/vnd.ms-access A31536000
+    ExpiresByType audio/midi A31536000
+    ExpiresByType video/quicktime A31536000
+    ExpiresByType audio/mpeg A31536000
+    ExpiresByType video/mp4 A31536000
+    ExpiresByType video/mpeg A31536000
+    ExpiresByType video/webm A31536000
+    ExpiresByType application/vnd.ms-project A31536000
+    ExpiresByType application/x-font-otf A31536000
+    ExpiresByType application/vnd.ms-opentype A31536000
+    ExpiresByType application/vnd.oasis.opendocument.database A31536000
+    ExpiresByType application/vnd.oasis.opendocument.chart A31536000
+    ExpiresByType application/vnd.oasis.opendocument.formula A31536000
+    ExpiresByType application/vnd.oasis.opendocument.graphics A31536000
+    ExpiresByType application/vnd.oasis.opendocument.presentation A31536000
+    ExpiresByType application/vnd.oasis.opendocument.spreadsheet A31536000
+    ExpiresByType application/vnd.oasis.opendocument.text A31536000
+    ExpiresByType audio/ogg A31536000
+    ExpiresByType application/pdf A31536000
+    ExpiresByType image/png A31536000
+    ExpiresByType application/vnd.ms-powerpoint A31536000
+    ExpiresByType audio/x-realaudio A31536000
+    ExpiresByType image/svg+xml A31536000
+    ExpiresByType application/x-shockwave-flash A31536000
+    ExpiresByType application/x-tar A31536000
+    ExpiresByType image/tiff A31536000
+    ExpiresByType application/x-font-ttf A31536000
+    ExpiresByType application/vnd.ms-opentype A31536000
+    ExpiresByType audio/wav A31536000
+    ExpiresByType audio/wma A31536000
+    ExpiresByType application/vnd.ms-write A31536000
+    ExpiresByType application/font-woff A31536000
+    ExpiresByType application/font-woff2 A31536000
+    ExpiresByType application/vnd.ms-excel A31536000
+    ExpiresByType application/zip A31536000
+</IfModule>
+<IfModule mod_deflate.c>
+        AddOutputFilterByType DEFLATE text/css text/x-component application/x-javascript application/javascript text/javascript text/x-js text/html text/richtext text/plain text/xsd text/xsl text/xml image/bmp application/java application/msword application/vnd.ms-fontobject application/x-msdownload image/x-icon application/json application/vnd.ms-access video/webm application/vnd.ms-project application/x-font-otf application/vnd.ms-opentype application/vnd.oasis.opendocument.database application/vnd.oasis.opendocument.chart application/vnd.oasis.opendocument.formula application/vnd.oasis.opendocument.graphics application/vnd.oasis.opendocument.presentation application/vnd.oasis.opendocument.spreadsheet application/vnd.oasis.opendocument.text audio/ogg application/pdf application/vnd.ms-powerpoint image/svg+xml application/x-shockwave-flash image/tiff application/x-font-ttf application/vnd.ms-opentype audio/wav application/vnd.ms-write application/font-woff application/font-woff2 application/vnd.ms-excel
+    <IfModule mod_mime.c>
+        # DEFLATE by extension
+        AddOutputFilter DEFLATE js css htm html xml
+    </IfModule>
+</IfModule>
+<FilesMatch "\.(css|htc|less|js|js2|js3|js4|CSS|HTC|LESS|JS|JS2|JS3|JS4)$">
+    FileETag MTime Size
+    <IfModule mod_headers.c>
+         Header unset Set-Cookie
+    </IfModule>
+</FilesMatch>
+<FilesMatch "\.(html|htm|rtf|rtx|txt|xsd|xsl|xml|HTML|HTM|RTF|RTX|TXT|XSD|XSL|XML)$">
+    FileETag MTime Size
+</FilesMatch>
+<FilesMatch "\.(asf|asx|wax|wmv|wmx|avi|bmp|class|divx|doc|docx|eot|exe|gif|gz|gzip|ico|jpg|jpeg|jpe|webp|json|mdb|mid|midi|mov|qt|mp3|m4a|mp4|m4v|mpeg|mpg|mpe|webm|mpp|otf|_otf|odb|odc|odf|odg|odp|ods|odt|ogg|pdf|png|pot|pps|ppt|pptx|ra|ram|svg|svgz|swf|tar|tif|tiff|ttf|ttc|_ttf|wav|wma|wri|woff|woff2|xla|xls|xlsx|xlt|xlw|zip|ASF|ASX|WAX|WMV|WMX|AVI|BMP|CLASS|DIVX|DOC|DOCX|EOT|EXE|GIF|GZ|GZIP|ICO|JPG|JPEG|JPE|WEBP|JSON|MDB|MID|MIDI|MOV|QT|MP3|M4A|MP4|M4V|MPEG|MPG|MPE|WEBM|MPP|OTF|_OTF|ODB|ODC|ODF|ODG|ODP|ODS|ODT|OGG|PDF|PNG|POT|PPS|PPT|PPTX|RA|RAM|SVG|SVGZ|SWF|TAR|TIF|TIFF|TTF|TTC|_TTF|WAV|WMA|WRI|WOFF|WOFF2|XLA|XLS|XLSX|XLT|XLW|ZIP)$">
+    FileETag MTime Size
+    <IfModule mod_headers.c>
+         Header unset Set-Cookie
+    </IfModule>
+</FilesMatch>
+<FilesMatch "\.(bmp|class|doc|docx|eot|exe|ico|json|mdb|webm|mpp|otf|_otf|odb|odc|odf|odg|odp|ods|odt|ogg|pdf|pot|pps|ppt|pptx|svg|svgz|swf|tif|tiff|ttf|ttc|_ttf|wav|wri|woff|woff2|xla|xls|xlsx|xlt|xlw|BMP|CLASS|DOC|DOCX|EOT|EXE|ICO|JSON|MDB|WEBM|MPP|OTF|_OTF|ODB|ODC|ODF|ODG|ODP|ODS|ODT|OGG|PDF|POT|PPS|PPT|PPTX|SVG|SVGZ|SWF|TIF|TIFF|TTF|TTC|_TTF|WAV|WRI|WOFF|WOFF2|XLA|XLS|XLSX|XLT|XLW)$">
+    <IfModule mod_headers.c>
+         Header unset Last-Modified
+    </IfModule>
+</FilesMatch>
+<IfModule mod_headers.c>
+    Header set Referrer-Policy "no-referrer-when-downgrade"
+</IfModule>
+# END W3TC Browser Cache
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+## EXPIRES CACHING ##
+# Disable ETags
+<IfModule mod_headers.c>
+Header unset ETag
+Header unset Cookie
+Header unset Set-Cookie
+</IfModule>
+# ----------------------------------------------------------------------
+# Expires headers (for better cache control)
+# ----------------------------------------------------------------------
+# Expire images header
+# ExpiresActive On
+# ExpiresDefault A0
+# ExpiresByType image/gif A2592000
+# ExpiresByType image/png A2592000
+# ExpiresByType image/jpg A2592000
+# ExpiresByType image/jpeg A2592000
+# ExpiresByType image/ico A2592000
+# ExpiresByType text/css A2592000
+# ExpiresByType text/javascript A2592000
+Header unset ETag
+FileETag None
+## EXPIRES HEADER CACHING 30-09-2020 ##
+
+## EXPIRES HEADER CACHING ##
+# These are pretty far-future expires headers.
+# They assume you control versioning with filename-based cache busting
+# Additionally, consider that outdated proxies may miscache
+# www.stevesouders.com/blog/2008/08/23/revving-filenames-dont-use-querystring/
+# If you don't use filenames to version, lower the CSS and JS to something like
+# "access plus 1 week".
+# END WordPress
+#AuthName "This site is protected with a password"
+#AuthType Basic
+#AuthUserFile /home/akshathatechno/public_html/.htpasswd
+#AuthGroupFile /dev/null
+#require valid-user
+# Don't show directory listings for URLs which map to a directory.
+Options -Indexes
+# Follow symbolic links in this directory.
+Options +FollowSymLinks
+# Requires mod_expires to be enabled.
+<IfModule mod_expires.c>
+# Enable expirations.
+ExpiresActive On
+# Cache all files for 2 weeks after access (A).
+ExpiresDefault A1209600
+# Do not cache dynamically generated pages.
+ExpiresByType text/html A1
+</IfModule>
+
+Redirect 301 /partners/%20channel-partners/ /channel-partners/
+Redirect 301 /case-study/ /case-studies/
+Redirect 301 /10-reasons-why-qualiyze/  /
+Redirect 301 /5-key-components-of-quality-improvement-in-healthcare-2/ /5-key-components-of-quality-improvement-in-healthcare/
+Redirect 301 /blogs/three-ways-ai-will-transform-cannabis-industry-by-2020/ /explained-three-ways-will-transform-cannabis-industry-2020/
+Redirect 301 /blogs/3-benefits-of-training-management-solution/ /3-benefits-training-management-solution/
+Redirect 301 /blogs/difference-between-iso-9001-and-iatf-16949/ /difference-iso-9001-iatf-16949/
+Redirect 301 /blogs/digital-records-helping-manufacturing-companies-reduce-operational-costs/ /digital-records-helping-manufacturing-companies-reduce-quality-costs-halves/
+Redirect 301 /blogs/types-of-document-management-software/ /different-types-document-management-software/
+Redirect 301 /blogs/deviation-management/ /looking-beyond-horizon-practical-approach-deviation-management/
+Redirect 301 /blogs/cloud-eqms-to-lower-the-impact-of-covid-downturn/ /cloud-eqms-lower-impact-covid-downturn/
+Redirect 301 /blogs/ai-driven-quality-management-process/ /artificial-intelligence-driven-quality-management-process/
+Redirect 301 /blogs/process-validation/ /brief-guide-process-validation/
+Redirect 301 /blogs/quality-journey-with-cloud-solutions/ /complete-quality-journey-cloud-solutions/
+Redirect 301 /blogs/best-eqms-partner-during-corona-virus-outbreak/ /best-eqms-partner-during-covid19-outbreak/
+Redirect 301 /blogs/a-quick-overview-of-iso-190112018-guidelines-for-auditing-standards/ /a-quick-overview-of-iso-190112018-guidelines-for-auditing-standards/
+Redirect 301 /blogs/benefits-of-cloud-based-calibration-management-software/ /calibration-management-software-benefits-cloud-based/
+Redirect 301 /blogs/5-key-components-of-effective-complaints-management-process/ /5-key-components-effective-complaints-management-process/
+Redirect 301 /non-conformance-management/ /nonconformance-management/
+Redirect 301 /nc-management/ /non-conformance-management/
+Redirect 301 /nc-management.html/ /non-conformance-management/
+Redirect 301 /non-management.html/ /nonmanagement-management/
+Redirect 301 /eportal  https://qualityzeemployee-developer-edition.na124.force.com/eportal/s/login/?language=en_US
+Redirect 301 /sitemap.html/ /sitemap/
+Redirect 301 /sitemap.html /sitemap/
+Redirect 301 /blogs/quality-journey-with-cloud-solutions/ /blogs/quality-journey-with-cloud-based-quality-management-systems/
+Redirect 301 /blogs/a-quick-overview-of-iso-190112018-guidelines-for-auditing-standards/ /blogs/iso-19011-2018-guidelines-for-audit-management-systems/
+Redirect 301 /supplier-management/ /supplier-quality-management/
+Redirect 301 /ts16949/ /iatf-16949/
+Redirect 301 /compliance/iso-9001/ /iso-9001/
+Redirect 301 /compliance/iso-13485/ /iso-13485/
+Redirect 301 /compliance/ts16949/ /iatf-16949/
+Redirect 301 /compliance/21-cfr-820/ /21-cfr-820/
+Redirect 301 /compliance/21-cfr-part-11/ /21-cfr-part-11/
+Redirect 301 /compliance/as9100/ /as9100/
+Redirect 301 /careers.php /careers/
+Redirect 301 /document-management.html /document-management/
+Redirect 301 /complaint-management.html /compliant-management/
+Redirect 301 /supplier-management.html /supplier-management/
+Redirect 301 /audit-management.html /audit-management/
+Redirect 301 /tech-support.html /tech-support/
+Redirect 301 /aboutus.html /aboutus/
+Redirect 301 /training-management.html /training-management/
+Redirect 301 /contact.html /contact/
+#Redirect 301 /nc-management.html /non-conformance-management/
+Redirect 301 /request-demo.html /request-demo/
+Redirect 301 /whyus.html /whyus/
+Redirect 301 /technology-whycloud.html /technology-whycloud/
+#Redirect 301 /wordpress/nc-management/ /non-conformance-management/
+Redirect 301 /tech-support/?q=tech-support.html /qualityze-support/
+Redirect 301 /tech-support/ /qualityze-support/
+Redirect 301 /change-management.html /change-management/
+# Redirect 301 /nonconformance-management/ /non-management-management/
+Redirect 301 /technology-salesforce/ /platform-overview/
+Redirect 301 /technology-salesforce.html /platform-overview/
+Redirect 301 /wordpress/technology-salesforce.html /platform-overview/
+Redirect 301 /aboutus/ /about-us/
+Redirect 301 /whyus/ /why-us/
+Redirect 301 /capa-management.html /capa-management/
+Redirect 301 /technology-whycloud/ /why-cloud/
+Redirect 301 /complaints-management/ /complaint-management/
+Redirect 301 /aboutus/ /about-us/
+ErrorDocument 404 /404.html
+# BEGIN ShortPixelWebp
+# END ShortPixelWebp
